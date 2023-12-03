@@ -1,4 +1,3 @@
-import GlobalStyle from 'GlobalStyle';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import input from '../asset/input.png';
@@ -6,6 +5,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from 'redux/modules/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,7 +16,16 @@ function Login() {
   const [addMemberIdValue, setAddMemberIdValue] = useState('');
   const [addMemberPwValue, setaddMemberPwValue] = useState('');
   const [addMemberNickNameValue, setAddMemberNickName] = useState('');
-
+  const success = () => {
+    toast.success('회원가입에 성공했어요!!');
+  };
+  const successLogin = () => {
+    toast.success('로그인에 성공했어요!!');
+  };
+  const failLogin = () => {
+    toast.error('아이디 혹은 비밀번호를 확인해주세요!!');
+  };
+  const error = () => toast.error('이미 존재하는 아이디에요!!');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,14 +48,16 @@ function Login() {
       };
 
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/login`,
+        `${process.env.REACT_APP_SERVER_URL}/login?expiresIn=10m`,
         memberLogin
       );
-
+      console.log(response.data);
       dispatch(login(response.data));
       navigate('/');
+      successLogin();
     } catch {
       console.log('실패');
+      failLogin();
     }
   };
 
@@ -66,14 +78,15 @@ function Login() {
       );
       console.log(response.data);
       setIsLogin(!isLogin);
+      success();
     } catch {
       console.log('실패');
+      error();
     }
   };
 
   return (
     <>
-      <GlobalStyle />
       <StContainer>
         {isLogin ? (
           <form onSubmit={clickLoginHandler}>
@@ -213,6 +226,7 @@ const StContainer = styled.div`
         }
       }
       input {
+        outline: 3px double #c3c3c3;
         display: flex;
         margin: -1%;
         height: 50px;
@@ -222,6 +236,7 @@ const StContainer = styled.div`
     }
 
     button {
+      outline: 3px double #c3c3c3;
       cursor: pointer;
       width: 180px;
       height: 50px;

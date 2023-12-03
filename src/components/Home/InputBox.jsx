@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import input from 'asset/input.png';
 import mailicon from 'asset/mailicon.png';
 import sendmail from 'asset/sendmail.png';
+import { useSelector } from 'react-redux';
 
 function InputBox({
   nickname,
@@ -13,19 +14,16 @@ function InputBox({
   memberData,
   addCard,
 }) {
+  const auth = useSelector((state) => {
+    return state.auth;
+  });
+
+  const userNickname = auth.nickname;
+
   return (
     <StInputBox>
       <StNickname>
-        <StPtag>닉네임 :</StPtag>
-        <StInput
-          value={nickname}
-          onChange={(e) => {
-            setNickname(e.target.value);
-          }}
-          $height="30px"
-          maxLength={20}
-          placeholder="최대 20글자까지 작성할 수 있습니다."
-        ></StInput>
+        <StPtag>닉네임 : {userNickname}</StPtag>
       </StNickname>
 
       <StContent>
@@ -61,7 +59,13 @@ function InputBox({
 
       <StSend>
         <StSendMailImg src={sendmail}></StSendMailImg>
-        <StSendBtn onClick={addCard}>Send!!</StSendBtn>
+        <StSendBtn
+          onClick={() => {
+            addCard();
+          }}
+        >
+          Send!!
+        </StSendBtn>
       </StSend>
     </StInputBox>
   );
@@ -94,9 +98,8 @@ const StInput = styled.textarea`
 
 const StNickname = styled.div`
   display: inline-flex;
-  justify-content: center;
   margin: 10px;
-  margin-left: -20px;
+  margin-left: 166px;
 `;
 
 const StContent = styled.div`

@@ -2,7 +2,48 @@ import React from 'react';
 import memo from 'asset/memo.jpg';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import usericon from 'asset/usericon.png';
+import { useSelector } from 'react-redux';
+
+function Comment({ id, nickname, content, avatar, userId }) {
+  const time = new Date().toLocaleString('ko', {});
+
+  const auth = useSelector((state) => {
+    return state.auth;
+  });
+
+  const userNickname = auth.nickname;
+  const usersId = auth.userId;
+
+  console.log(userId === usersId);
+
+  return (
+    <>
+      <Link to={`/detail/${id}`}>
+        <StmemberCards key={id}>
+          <Stnickname>
+            <StPtag $fontSize="30px">{nickname}</StPtag>
+          </Stnickname>
+          <Stcontents>
+            <StPtag
+              $fontSize="20px"
+              $overflow="hidden"
+              $textOverflow="ellipsis"
+              $whiteSpace="nowrap"
+            >
+              {content}
+            </StPtag>
+          </Stcontents>
+          <StTime>
+            <StPtag $fontSize="20px">작성시간 : {time}</StPtag>
+          </StTime>
+          <STUserImg src={avatar} />
+        </StmemberCards>
+      </Link>
+    </>
+  );
+}
+
+export default Comment;
 
 const StmemberCards = styled.div`
   position: relative;
@@ -24,7 +65,6 @@ const StmemberCards = styled.div`
 const Stnickname = styled.div`
   position: absolute;
   display: flex;
-  /* background-color: rebeccapurple; */
   width: 300px;
   height: 100px;
   padding: 10px;
@@ -34,7 +74,6 @@ const Stnickname = styled.div`
 const Stcontents = styled.div`
   position: absolute;
   display: flex;
-  /* background-color: green; */
   width: 500px;
   height: 80px;
   padding: 10px;
@@ -59,41 +98,10 @@ const StTime = styled.div`
 const STUserImg = styled.img`
   position: absolute;
   width: 100px;
+  height: 100px;
   background-color: red;
   border-radius: 50%;
   right: 40px;
   top: 50px;
   outline: 3px double #818181;
 `;
-
-function Comment({ id, nickname, content }) {
-  const time = new Date().toLocaleString('ko', {});
-
-  return (
-    <>
-      <Link to={`/detail/${id}`}>
-        <StmemberCards key={id}>
-          <Stnickname>
-            <StPtag $fontSize="30px">{nickname}</StPtag>
-          </Stnickname>
-          <Stcontents>
-            <StPtag
-              $fontSize="20px"
-              $overflow="hidden"
-              $textOverflow="ellipsis"
-              $whiteSpace="nowrap"
-            >
-              {content}
-            </StPtag>
-          </Stcontents>
-          <StTime>
-            <StPtag $fontSize="20px">작성시간 : {time}</StPtag>
-          </StTime>
-          <STUserImg src={usericon} />
-        </StmemberCards>
-      </Link>
-    </>
-  );
-}
-
-export default Comment;

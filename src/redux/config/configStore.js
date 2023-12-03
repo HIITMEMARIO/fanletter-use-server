@@ -4,7 +4,7 @@ import authSlice from 'redux/modules/authSlice';
 
 const store = configureStore({
   reducer: {
-    list: list,
+    letters: list,
     auth: authSlice,
   },
 });
