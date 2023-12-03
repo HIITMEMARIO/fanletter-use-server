@@ -13,7 +13,9 @@ export const __getList = createAsyncThunk(
   'GET_LIST',
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.get('http://localhost:5000/letters');
+      const response = await axios.get(
+        `${process.env.REACT_APP_FANLETTER_DB_SERVER_URL}/letters`
+      );
       console.log(response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
@@ -28,7 +30,7 @@ export const __addList = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        'http://localhost:5000/letters',
+        `${process.env.REACT_APP_FANLETTER_DB_SERVER_URL}/letters`,
         payload
       );
       return thunkAPI.fulfillWithValue(response.data);
@@ -45,7 +47,7 @@ export const __deleteList = createAsyncThunk(
     try {
       console.log(payload);
       const response = await axios.delete(
-        `http://localhost:5000/letters/${payload}`
+        `${process.env.REACT_APP_FANLETTER_DB_SERVER_URL}/letters/${payload}`
       );
       console.log('axios:', response.data);
       thunkAPI.dispatch(__getList());
@@ -63,7 +65,7 @@ export const __editList = createAsyncThunk(
     console.log('asf:', payload);
     try {
       const response = await axios.patch(
-        `http://localhost:5000/letters/${payload.id}`,
+        `${process.env.REACT_APP_FANLETTER_DB_SERVER_URL}/letters/${payload.id}`,
         { content: payload.content }
       );
       console.log(response.data);

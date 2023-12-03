@@ -104,10 +104,13 @@ function MyPage() {
 
       const changedLetterDbData = await Promise.all(
         usersLetterId.map((i) => {
-          return axios.patch(`http://localhost:5000/letters/${i}`, {
-            avatar: resultImage ? resultImage : avatar,
-            nickname: editNickName ? editNickName : nickName,
-          });
+          return axios.patch(
+            `${process.env.REACT_APP_FANLETTER_DB_SERVER_URL}/letters/${i}`,
+            {
+              avatar: resultImage ? resultImage : avatar,
+              nickname: editNickName ? editNickName : nickName,
+            }
+          );
         })
       );
       dispatch(__getList());
