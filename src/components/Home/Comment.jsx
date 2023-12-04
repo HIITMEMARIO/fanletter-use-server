@@ -11,7 +11,7 @@ function Comment({ id, nickname, content, avatar, userId }) {
     return state.auth;
   });
 
-  const userNickname = auth.nickname;
+  // const userNickname = auth.nickname;
   const usersId = auth.userId;
 
   console.log(userId === usersId);

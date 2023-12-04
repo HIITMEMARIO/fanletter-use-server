@@ -51,7 +51,7 @@ function Login() {
         `${process.env.REACT_APP_SERVER_URL}/login?expiresIn=10m`,
         memberLogin
       );
-      console.log(response.data);
+      console.log('reponseData', response.data);
       dispatch(login(response.data));
       navigate('/');
       successLogin();

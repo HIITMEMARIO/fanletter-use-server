@@ -52,7 +52,7 @@ function MyPage() {
     setIsEditProfile(!isEditProfile);
   };
 
-  const onChange = (e) => {
+  const changeFile = (e) => {
     if (e.target.files[0]) {
       setImgFile(e.target.files[0]);
     } else {
@@ -183,7 +183,7 @@ function MyPage() {
               style={{ display: 'none' }}
               accept="image/jpg,impge/png,image/jpeg"
               name="profile_img"
-              onChange={onChange}
+              onChange={changeFile}
               ref={fileInput}
             />
             <span>{nickName}</span>
